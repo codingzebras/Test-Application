@@ -39,3 +39,5 @@ npx serve .
 3. Refresh the browser tab.
 
 If `npx serve` is already running and terminal seems stuck, press `Ctrl + C` first.
+
+This is the read file but nothing to say as of now

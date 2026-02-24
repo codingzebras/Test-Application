@@ -116,18 +116,21 @@ function chooseAiMove() {
     .map((value, index) => (value ? null : index))
     .filter((index) => index !== null);
 
+  // Win if possible.
   for (const index of open) {
     const trial = [...board];
     trial[index] = AI;
     if (getOutcome(trial)?.winner === AI) return index;
   }
 
+  // Block player.
   for (const index of open) {
     const trial = [...board];
     trial[index] = HUMAN;
     if (getOutcome(trial)?.winner === HUMAN) return index;
   }
 
+  // Take center, then corners, then any spot.
   if (!board[4]) return 4;
 
   const corners = [0, 2, 6, 8].filter((i) => !board[i]);
