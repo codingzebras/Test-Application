@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Grid: Tic-Tac-Toe</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="banner" aria-label="Cyberpunk city banner">
+      <img src="assets/cyberpunk-banner.svg" alt="Cyberpunk skyline with neon lights" />
+      <div class="title-wrap">
+        <h1>Neon Grid: Tic-Tac-Toe</h1>
+        <p>First to 2 wins takes the best-of-three crown.</p>
+      </div>
+    </header>
+
+    <main class="game-shell">
+      <section class="character player-side" aria-label="Player character">
+        <h2>Player</h2>
+        <div class="pixel-art hero" role="img" aria-label="Pixel art neon hero"></div>
+      </section>
+
+      <section class="play-space">
+        <div class="scoreboard">
+          <div class="score-card">
+            <span class="label">Player</span>
+            <span id="playerScore" class="value">0</span>
+          </div>
+          <div class="score-card">
+            <span class="label">AI Robot</span>
+            <span id="aiScore" class="value">0</span>
+          </div>
+          <div class="score-card rounds">
+            <span class="label">Round</span>
+            <span id="roundCount" class="value">1 / 3</span>
+          </div>
+        </div>
+
+        <div id="status" class="status" aria-live="polite">Your turn. Place an X.</div>
+
+        <div id="board" class="board" role="grid" aria-label="Tic tac toe board"></div>
+
+        <div class="actions">
+          <button id="nextRoundBtn" class="btn" hidden>Next Round</button>
+          <button id="playAgainBtn" class="btn" hidden>Play Again</button>
+        </div>
+      </section>
+
+      <section class="character ai-side" aria-label="Robot character">
+        <h2>AI Robot</h2>
+        <div class="pixel-art robot" role="img" aria-label="Pixel art robot"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
