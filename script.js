@@ -20,6 +20,8 @@ let aiScore = 0;
 let round = 1;
 let roundOver = false;
 let matchOver = false;
+let isPlayerTurn = true;
+let aiTurnTimeout = null;
 
 function initBoard() {
   boardElement.innerHTML = '';
@@ -35,7 +37,7 @@ function initBoard() {
 }
 
 function onPlayerMove(event) {
-  if (roundOver || matchOver) return;
+  if (roundOver || matchOver || !isPlayerTurn) return;
 
   const index = Number(event.currentTarget.dataset.index);
   if (board[index]) return;
@@ -48,10 +50,16 @@ function onPlayerMove(event) {
     return;
   }
 
+  isPlayerTurn = false;
+  setBoardEnabled(false);
   statusElement.className = 'status';
   statusElement.textContent = 'AI is calculating...';
 
-  setTimeout(() => {
+  aiTurnTimeout = setTimeout(() => {
+    aiTurnTimeout = null;
+
+    if (roundOver || matchOver) return;
+
     const aiMove = chooseAiMove();
     if (aiMove !== null) {
       placeMove(aiMove, AI);
@@ -63,6 +71,8 @@ function onPlayerMove(event) {
       return;
     }
 
+    isPlayerTurn = true;
+    setBoardEnabled(true);
     statusElement.className = 'status';
     statusElement.textContent = 'Your turn. Place an X.';
   }, 400);
@@ -76,6 +86,14 @@ function placeMove(index, token) {
   if (token === AI) {
     cell.classList.add('o');
   }
+}
+
+function setBoardEnabled(enabled) {
+  Array.from(boardElement.children).forEach((cell, index) => {
+    if (!board[index]) {
+      cell.disabled = !enabled;
+    }
+  });
 }
 
 function getOutcome(grid) {
@@ -124,8 +142,17 @@ function chooseAiMove() {
   return open[Math.floor(Math.random() * open.length)];
 }
 
+function clearAiTimeout() {
+  if (aiTurnTimeout !== null) {
+    clearTimeout(aiTurnTimeout);
+    aiTurnTimeout = null;
+  }
+}
+
 function finishRound({ winner }) {
   roundOver = true;
+  isPlayerTurn = false;
+  clearAiTimeout();
   Array.from(boardElement.children).forEach((cell) => {
     cell.disabled = true;
   });
@@ -183,9 +210,11 @@ function evaluateMatchState() {
 function startNextRound() {
   if (matchOver) return;
 
+  clearAiTimeout();
   round += 1;
   board = Array(9).fill('');
   roundOver = false;
+  isPlayerTurn = true;
   nextRoundBtn.hidden = true;
   statusElement.className = 'status';
   statusElement.textContent = 'Next round engaged. Your turn.';
@@ -194,12 +223,14 @@ function startNextRound() {
 }
 
 function resetMatch() {
+  clearAiTimeout();
   board = Array(9).fill('');
   playerScore = 0;
   aiScore = 0;
   round = 1;
   roundOver = false;
   matchOver = false;
+  isPlayerTurn = true;
   nextRoundBtn.hidden = true;
   playAgainBtn.hidden = true;
   statusElement.className = 'status';

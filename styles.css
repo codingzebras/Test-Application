@@ -51,6 +51,8 @@ body {
   display: grid;
   place-content: center;
   text-align: center;
+  gap: 0.35rem;
+  padding: 0.75rem;
   background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.2));
 }
 
@@ -58,6 +60,11 @@ h1 {
   margin: 0;
   font-size: clamp(1.5rem, 3vw, 2.3rem);
   text-shadow: 0 0 10px var(--neon-cyan), 0 0 18px var(--neon-pink);
+}
+
+.title-wrap p {
+  margin: 0;
+  font-size: clamp(0.84rem, 1.2vw, 1rem);
 }
 
 .game-shell {
@@ -194,17 +201,75 @@ h1 {
 
 @media (max-width: 900px) {
   .game-shell {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .play-space {
+    grid-column: 1 / -1;
+    order: 1;
+  }
+
+  .player-side {
+    order: 2;
+  }
+
+  .ai-side {
+    order: 3;
   }
 
   .character {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+    padding: 0.7rem;
+  }
+
+  .character h2 {
+    margin: 0 0 0.45rem;
+    font-size: 0.9rem;
   }
 
   .character-art {
-    width: min(100%, 140px);
+    width: min(100%, 130px);
+  }
+}
+
+@media (max-width: 640px) {
+  .app {
+    padding: 0.75rem;
+  }
+
+  .banner img {
+    max-height: none;
+    max-width: 100%;
+    object-fit: contain;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  h1 {
+    font-size: clamp(1.15rem, 6vw, 1.5rem);
+  }
+
+  .title-wrap p {
+    font-size: 0.8rem;
+  }
+
+  .game-shell {
+    gap: 0.75rem;
+  }
+
+  .play-space {
+    padding: 0.8rem;
+  }
+
+  .scoreboard {
+    gap: 0.55rem;
+  }
+
+  .score-card {
+    min-width: 96px;
+    padding: 0.4rem 0.55rem;
+  }
+
+  .board {
+    width: min(94vw, 350px);
+    gap: 8px;
   }
 }
